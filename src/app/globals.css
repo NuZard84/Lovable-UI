@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* :root {
+  --font-blue: rgb(120, 170, 255);
+  --font-gray: rgba(230, 230, 230, 0.8);
+  --font-white: rgba(255, 255, 255, 0.85);
+  --bg-blue: rgb(0, 85, 255);
+  --bg-gray: rgb(43, 43, 43);
+  --bg-dark: rgb(17, 17, 17);
+  --bg-offwhite: rgba(255, 255, 255, 0.9);
+} */
+:root {
+  --font-blue: #8b5dff;
+  --font-gray: rgba(230, 230, 230, 0.8);
+  --font-white: rgba(255, 255, 255, 0.85);
+  --bg-blue: #6a42c2;
+  --bg-gray: rgb(43, 43, 43);
+  --bg-dark: rgb(17, 17, 17);
+  --bg-offwhite: rgba(255, 255, 255, 0.9);
+}
+
+@theme {
+  --color-font-blue: var(--font-blue);
+  --color-font-gray: var(--font-gray);
+  --color-font-white: var(--font-white);
+  --color-bg-blue: var(--bg-blue);
+  --color-bg-gray: var(--bg-gray);
+  --color-bg-dark: var(--bg-dark);
+  --color-bg-offwhite: var(--bg-offwhite);
+}
+
+/* @theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  font-family: var(--font-jetbrains);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* body.grain-bg {
+  overflow: auto !important; 
+} */
+
+.grain-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch' seed='3'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.25 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: soft-light;
+  animation: subtle-shift 6s infinite alternate;
+}
+
+@keyframes subtle-shift {
+  0% {
+    transform: translateX(-1px) translateY(-1px);
+  }
+  100% {
+    transform: translateX(1px) translateY(1px);
+  }
+}
+
+/* Optional: Add this for dark mode to adjust grain visibility */
+@media (prefers-color-scheme: dark) {
+  .grain-bg::before {
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+  }
+}
+
+/* Button border animation with violet variant */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.btn-animated {
+  position: relative;
+  z-index: 0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.btn-animated::before,
+.btn-animated::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background-image: conic-gradient(
+    from var(--angle),
+    #8c80db,
+    #6a42c2,
+    #32247a,
+    #2b1c83,
+    #8b5dff,
+    #8c80db
+  );
+  border-radius: 9999px;
+  z-index: -1;
+  animation: rotate-border 3s linear infinite;
+}
+
+.btn-animated::after {
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+.btn-animated > div {
+  background: rgba(0, 0, 0, 1);
+  border-radius: 9999px;
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 1rem;
+  margin: 2px;
+}
+
+@keyframes rotate-border {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
